@@ -19,7 +19,7 @@ services:
       context: ./user_manage_system_frontend/
       dockerfile: Dockerfile
     ports:
-      - "5000:5000"
+      - "3000:3000"
     stdin_open: true
     depends_on:
       - project
@@ -37,7 +37,7 @@ services:
       context: ./djangoProject/
       dockerfile: Dockerfile
     ports:
-      - "5000:5000"
+      - "8000:8000"
     depends_on:
       - db
     networks:
