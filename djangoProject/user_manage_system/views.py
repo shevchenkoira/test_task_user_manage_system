@@ -1,6 +1,8 @@
+import json
 import logging
 
 from django.contrib.auth.hashers import make_password
+from django.db import connection
 from django.http import QueryDict
 from rest_framework import status, serializers
 from rest_framework.generics import RetrieveUpdateDestroyAPIView, ListCreateAPIView, GenericAPIView, RetrieveAPIView, \
@@ -70,7 +72,7 @@ class FilteringView(GenericAPIView):
 
     function_dict = {
         "like": "{} LIKE '{}'",
-        "exact": "{} = {}",
+        "exact": "{} = '{}'",
     }
     model_dict = {
         "CustomUser": "user_manage_system_customuser",
@@ -78,14 +80,15 @@ class FilteringView(GenericAPIView):
     }
 
     def post(self, request, *args, **kwargs):
+        print(request.data)
         try:
             self.filter_data(request.data)
         except Exception:
             return Response(status=status.HTTP_400_BAD_REQUEST)
-        serializer = self.serializer_class(self.queryset, context={'request': request}, many=True)
-        return Response(status=status.HTTP_200_OK, data=serializer.data)
+        return Response(status=status.HTTP_200_OK, data=self.queryset)
 
     def filter_data(self, data):
+        logger.info(data)
         if not isinstance(data.get("table"), str):
             raise TypeError
         table_name = data.get("table")
@@ -95,13 +98,29 @@ class FilteringView(GenericAPIView):
         for table_filter in filters:
             try:
                 if isinstance(table_filter["filter_input"], str):
-                    table_filter["filter_input"] = "'" + table_filter["filter_input"] + "'"
+                    table_filter["filter_input"] = table_filter["filter_input"]
                 query.append(self.function_dict[table_filter["filter_function"]].format(table_filter["field"],
                                                                                         table_filter["filter_input"]))
             except KeyError:
                 raise KeyError
             query.append("AND")
-        query[-1] = ";"
+        query[-1] = ""
+        logger.info(query)
+        query = ' '.join(query)
+        query = query.replace("%%", "%")
+        print(query)
 
-        self.queryset = eval(f"{table_name}.objects.raw(' '.join(query))")
+        cursor = connection.cursor()
+        cursor.execute(query)
+        cursor_results = cursor.fetchall()
+        for i in cursor_results:
+            print(i)
+
+        result = []
+        keys = eval(f"{table_name}._meta.fields")
+        keys = list(map(lambda x: x.name, keys))
+        for row in cursor_results:
+            result.append(dict(zip(keys, row)))
+        print(result)
+        self.queryset = result
         self.serializer_class = eval(f"{table_name}Serializer")
