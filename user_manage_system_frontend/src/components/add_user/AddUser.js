@@ -34,10 +34,10 @@ const AddUser = () => {
 
         await axios({
             method: "post",
-            url: BASE_URL + "/users/",
+            url: BASE_URL + "/users",
             data: formData
         }).then(response => {
-            navigate("/users/")
+            navigate("/users")
         }).catch(error => {
             const errors = error.response.data
             console.log(errors)

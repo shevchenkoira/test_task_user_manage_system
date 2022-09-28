@@ -30,10 +30,10 @@ const AddUser = () => {
 
         await axios({
             method: "post",
-            url: BASE_URL + "/groups/",
+            url: BASE_URL + "/groups",
             data: formData
         }).then(response => {
-            navigate("/groups/")
+            navigate("/groups")
         }).catch(error => {
             const errors = error.response.data
             console.log(errors)

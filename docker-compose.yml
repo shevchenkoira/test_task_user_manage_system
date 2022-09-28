@@ -1,4 +1,4 @@
-version: "3.2"
+version: '3.9'
 services:
   db:
     restart: always
@@ -8,12 +8,13 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=1234
     ports:
-      - "5432:5432"
+      - "5434:5432"
     networks:
       - db-net
 
   frontend:
     restart: always
+    image: 18-alpine
     command: npm start
     build:
       context: ./user_manage_system_frontend/
@@ -28,9 +29,7 @@ services:
 
   project:
     restart: always
-    command : bash -c "python check_db.py --service-name db --ip db --port 3306 && 
-                      python manage.py migrate &&
-                      python manage.py runserver 0.0.0.0:8000"
+    command : python manage.py runserver 0.0.0.0:8000
     env_file:
       - ./djangoProject/djangoProject/.env
     build:

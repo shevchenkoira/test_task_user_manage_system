@@ -46,10 +46,10 @@ const EditUser = () => {
 
         await axios({
             method: "patch",
-            url: BASE_URL + "/user/" + id + "/",
+            url: BASE_URL + "/user/" + id,
             data: formData
         }).then(response => {
-            navigate("/users/")
+            navigate("/users")
         }).catch(error => {
             const errors = error.response.data
             console.log(errors)
@@ -75,7 +75,7 @@ const EditUser = () => {
         async () => {
             await axios({
                 method: "get",
-                url: BASE_URL + "/user/" + id + "/",
+                url: BASE_URL + "/user/" + id,
             }).then(response => {
                 setUserInfo(response.data)
             }).catch(err => {

@@ -22,7 +22,7 @@ const Block_groups = (props) => {
     const DeleteGroup = () => {
         axios({
             method: "delete",
-            url: BASE_URL + '/group/' + props.id + "/"
+            url: BASE_URL + '/group/' + props.id
         })
             .then((response) => {
                 handlerNavigatorGroupsList()
@@ -67,7 +67,7 @@ const GroupsList = () => {
     }, []);
 
     function getgroups() {
-        axios.get(BASE_URL + "/groups/")
+        axios.get(BASE_URL + "/groups")
             .then((response) => {
                 console.log(response.data)
                 const data = response.data

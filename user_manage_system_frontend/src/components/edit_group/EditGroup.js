@@ -40,10 +40,10 @@ const EditGroup = () => {
 
         await axios({
             method: "patch",
-            url: BASE_URL + "/group/" + id + "/",
+            url: BASE_URL + "/group/" + id,
             data: formData
         }).then(response => {
-            navigate("/groups/")
+            navigate("/groups")
         }).catch(error => {
             const errors = error.response.data
             console.log(errors)
@@ -69,7 +69,7 @@ const EditGroup = () => {
         async () => {
             await axios({
                 method: "get",
-                url: BASE_URL + "/group/" + id + "/",
+                url: BASE_URL + "/group/" + id,
             }).then(response => {
                 setUserInfo(response.data)
             }).catch(err => {

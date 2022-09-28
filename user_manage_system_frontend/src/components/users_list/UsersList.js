@@ -21,10 +21,9 @@ const Block_users = (props) => {
     const DeleteAnAccount = () => {
         axios({
             method: "DELETE",
-            url: BASE_URL + '/user/' + props.id + "/"
+            url: BASE_URL + '/user/' + props.id
         })
             .then((response) => {
-                console.log("bvdjzkfvbkjzdbrgvk")
                 handlerNavigatorUsersList()
                 window.location.reload()
             })
@@ -70,7 +69,7 @@ const UsersList = () => {
     }, []);
 
     function getUsers() {
-        axios.get(BASE_URL + "/users/")
+        axios.get(BASE_URL + "/users")
             .then((response) => {
                 const data = response.data
                 setUsers(data)
