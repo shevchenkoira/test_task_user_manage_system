@@ -1,0 +1,71 @@
+{
+	"info": {
+		"_postman_id": "de9ff007-f685-4549-a3d6-367783abba75",
+		"name": "Test_task_synergyway",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Filter by like",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"table\": \"CustomUser\",\r\n    \"filter\": [\r\n        {\r\n            \"field\": \"email\",\r\n            \"filter_function\": \"like\",\r\n            \"filter_input\": \"%%@gmail.com\"\r\n        },\r\n        {\r\n            \"field\": \"username\",\r\n            \"filter_function\": \"like\",\r\n            \"filter_input\": \"%%ko0%%\"\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://0.0.0.0:8000/filter",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8000",
+					"path": [
+						"filter"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Filter with exact",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"table\": \"CustomGroup\",\r\n    \"filter\": [\r\n        {\r\n            \"field\": \"name\",\r\n            \"filter_function\": \"exact\",\r\n            \"filter_input\": \"HR\"\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://0.0.0.0:8000/filter",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8000",
+					"path": [
+						"filter"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
